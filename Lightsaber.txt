@@ -10,4 +10,7 @@ follow the instructions to install it.
 SBCL is located here: http://www.sbcl.org/getting.html
 
 Secondly, we need to install packages: Hunchentoot, CL-WHO, ParenScript, 
-and Common Lisp SQL. More information on this as I install them.
+and Common Lisp SQL. These can be done by using SBCL's ASDF build facility. For
+more information on this, go here: http://www.cliki.net/asdf
+At some point, we'll want to have a script that will automatically get
+Hunchentoot, CL-WHO, ParenScript, and CL SQL, but today is not that day yet.
