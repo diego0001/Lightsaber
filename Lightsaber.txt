@@ -1,0 +1,13 @@
+Project Lightsaber
+
+Project Lightsaber is the alpha name of a desire to bring the power of Common
+Lisp into an integrated package for web development.
+
+Release notes and feature ideas will go in this text file as the time allows.
+
+The first thing to do will be to get a copy of Steel Bank Common Lisp and
+follow the instructions to install it. 
+SBCL is located here: http://www.sbcl.org/getting.html
+
+Secondly, we need to install packages: Hunchentoot, CL-WHO, ParenScript, 
+and Common Lisp SQL. More information on this as I install them.
