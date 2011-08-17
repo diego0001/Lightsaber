@@ -63,7 +63,7 @@ executes:
 	       	(setf *firefox-styles* stylehash)))
     (setf (gethash 'bigger-text *firefox-styles*) '(font-size 80px)))
 
-This, in turn, will render as:
+This, in turn, will render only on Firefox as:
 
 bigger-text {
     font-size: 80px;
@@ -85,7 +85,7 @@ will execute:
 	       	(setf *firefox-javascript* jshash)))
     (setf (gethash 'add-one *firefox-javascript*) '(lambda (x) (+ x 1))))
 
-This, in turn, will render as:
+This, in turn, will render only on Chrome as:
 
 addOne = function (x) { return x+1; };
 
