@@ -87,6 +87,6 @@ will execute:
 
 This, in turn, will render as:
 
-add-one = function (x) { return x+1; };
+addOne = function (x) { return x+1; };
 
 More ideas forthcoming. Please let me know feedback.
