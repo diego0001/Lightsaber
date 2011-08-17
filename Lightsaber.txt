@@ -14,3 +14,79 @@ and Common Lisp SQL. These can be done by using SBCL's ASDF build facility. For
 more information on this, go here: http://www.cliki.net/asdf
 At some point, we'll want to have a script that will automatically get
 Hunchentoot, CL-WHO, ParenScript, and CL SQL, but today is not that day yet.
+
+General format for function and object definitions:
+
+(defhtml <object-name> <html-type> <optional-params> <body>)
+
+Where object-name will be the name of the HTML object to reference,
+the html-type will be the tag value, 
+optional-params is the tag attributes, all starting with a colon, 
+and the body will be the tag body. For example:
+(defhtml homepagelink a :href "/home.html" "Go home!") will return an object:
+((homepagelink (a :href "/home.html" "Go home!"))), which will render as:
+<a href="/home.html">Go home!</a>.
+
+(defhandler <handler-name> <optional-params> (<args>*) <body>) will create a
+Lightsaber handler function, which will bind the body of the handler 
+to a function taking in all the (args) and then define another 
+<handler-name>-handler function
+which will parse these arguments from the web server and send them on their 
+merry way to our inner function. So, for example:
+
+(defhandler funny (arg1 arg2 arg3)
+   (format t "~D ~D ~D" arg1 arg2 arg3))
+
+returns:
+
+(defun funny-handler (args)
+   (let ((arg1 (gethash 'arg1 args))
+   	 (arg2 (gethash 'arg2 args))
+	 (arg3 (gethash 'arg3 args)))
+     (funny-function arg1 arg2 arg3)))
+
+(defun funny-function (arg1 arg2 arg3)
+       (format t "~D ~D ~D" arg1 arg2 arg3))
+
+(defstyle <style-name> <optional-parameters> <body>) will bind a simple assoc
+list to the style we wish to use. Among the optional parameters there will be
+a :browser parameter which binds the style to one particular browser and not
+others. So, for example:
+
+(defstyle bigger-text :browser firefox (font-size 80px))
+
+executes:
+
+(if (or (null *firefox-styles*) (not (boundp '*firefox-styles*)))
+    (let ((stylehash (make-hash-table)))
+	 (progn (setf (gethash 'bigger-text stylehash) '(font-size 80px))
+	       	(setf *firefox-styles* stylehash)))
+    (setf (gethash 'bigger-text *firefox-styles*) '(font-size 80px)))
+
+This, in turn, will render as:
+
+bigger-text {
+    font-size: 80px;
+}
+
+(defjs <function-name> <optional-parameters> <body>) will bind the body to the
+name of the JS function we wish to define. This will be later rendered using
+ParenScript and extensions to get real javascript out of the deal. Among the
+optional parameters, there will be a :browser param, which binds the JS to a
+particular browser and not others. For example:
+
+(defjs add-one :browser chrome (lambda (x) (+ x 1)))
+
+will execute:
+
+(if (or (null *firefox-javascript*) (not (boundp '*firefox-javascript*)))
+    (let ((jshash (make-hash-table)))
+	 (progn (setf (gethash 'add-one jshash) '(lambda (x) (+ x 1)))
+	       	(setf *firefox-javascript* jshash)))
+    (setf (gethash 'add-one *firefox-javascript*) '(lambda (x) (+ x 1))))
+
+This, in turn, will render as:
+
+add-one = function (x) { return x+1; };
+
+More ideas forthcoming. Please let me know feedback.
